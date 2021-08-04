@@ -1,0 +1,67 @@
+/* html, body {
+    margin:0px;
+    padding: 0%;
+    height:100%;
+  }
+   */
+
+
+.container{
+    padding: 0%;
+    height: 100%;
+    width: 100%;
+    margin-bottom: 50px;
+
+}
+
+
+
+.post-div{
+    display: inline;
+    width: 60%;
+    height: 100%;
+    float: left;
+    padding: 5px;
+    
+}
+.trending-topic{
+    margin-top: 20px;
+    width: 100%;
+    height: 100%;
+}
+.top-post{
+    margin-top: 10px;
+    height: 50%;
+}
+
+
+.user-div{
+    display: inline;
+    width:35%;
+    height: 100%;
+    
+    float: right;
+    padding: 5px;
+    
+}
+
+.register-div{
+    margin-top:5px;
+    height: 60%;
+    padding: 10px;
+    background-color:white;
+}
+
+.login-div{
+    height: 40%;
+    padding: 10px;
+    background-color:white;
+    margin-top: 10px;
+}
+
+
+
+
+.navbar{
+    border-radius: 5px;
+}
