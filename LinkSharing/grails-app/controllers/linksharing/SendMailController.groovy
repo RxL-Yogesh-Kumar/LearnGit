@@ -5,7 +5,7 @@ class SendMailController {
     def send() {
         println params
         sendMail {
-            to "${params.address}"
+            to "${params.email}"
             subject "hello"
             text "you are invited"
 

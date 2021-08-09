@@ -28,15 +28,33 @@
     </tr>
     </thead>
     <tbody>
-    <g:each in="${user}">
+
+
+    <tr>
+        <td>5</td>
+        <td>Yogesh kumar</td>
+        <td>yogesh@rxlogix.com</td>
+        <td>yogesh</td>
+        <td>kumar</td>
+        <td>Yes</td>
+        <td><a href="" class="deactivate">Deactivate</a></td>
+    </tr>
+
         <tr>
-            <td>${it.firstName} ${it.lastName}</td>
+        <g:each in="${user}">
+            <td>${it.id}</td>
             <td>${it.userName}</td>
             <td>${it.email}</td>
             <td>${it.firstName}</td>
             <td>${it.lastName}</td>
+            <td>Yes</td>
+            <td><a href="" class="deactivate">Deactivate</a></td>
+
+        </g:each>
+
         </tr>
-    </g:each>
+
+
     </tbody>
 </table>
 

@@ -25,7 +25,26 @@ class UserController {
     }
 
 
+def forgotPassword(){
+    User user=User.findByEmail(params.get("email"))
+    println "mmmm"
 
+    println params
+    if(user.securityQuestion==(params.get("securityQuestion") as String))
+    {
+        user.password=params.get("password")
+        user.confPassword=params.get("confPassword")
+
+        user.save(flush:true,failOnError:true)
+        redirect(controller:"user",action:"index")
+    }
+    else
+    {
+        render("abv")
+    }
+
+
+}
 
     def loginUser(){
         def u = loginService.loginUser(params)

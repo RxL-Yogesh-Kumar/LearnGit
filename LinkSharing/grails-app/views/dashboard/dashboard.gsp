@@ -139,14 +139,14 @@
                               </button>
                           </div>
 
-                          <g:form controller="sendMail" action="s">
+                          <g:form controller="sendMail" action="send">
                               <div class="modal-body">
                                   <div class="row " style="margin-top: 20px; ">
                                       <label  class="col-sm-5 col-form-label"><b>Email:</b></label>
 
-                                      <div class="col-sm-7"><input type="textarea" name= "address"
+                                      <div class="col-sm-7"><input type="email" name= "email"
                                                                    class="form-control shadow p-3 mb-5 bg-white rounded"
-                                                                   placeholder="Enter Name" required>
+                                                                   placeholder="Enter email" required>
                                       </div>
                                   </div>
 
