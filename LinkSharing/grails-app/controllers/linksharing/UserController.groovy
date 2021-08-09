@@ -9,18 +9,30 @@ class UserController {
     def loginService
     def registerService
     def updateService
+    def topicService
+    def resourceService
+    def trendService
 
 
 
-    def index() {
-        render view: "index"
+    def index()
+    {
+        Date date =new Date()
+        List resList=resourceService.recentResource()
+        List topPost=trendService.topPost()
+
+        render (view: "index",model: [resList:resList,date:date,topPost:topPost])
     }
+
+
+
+
     def loginUser(){
         def u = loginService.loginUser(params)
         if(u!= null){
             if(u.password==params.password){
                 session.setAttribute('user',u)
-                redirect controller:"dashboard",actionName: "dashboard"
+                redirect (controller:"dashboard",action: "dashboard")
 
             }
             else{
@@ -112,7 +124,6 @@ class UserController {
     {
         String name=session.user.userName
         def u=updateService.updateProfile(params,name)
-        println params
         if(u){
             session.setAttribute("user",u)
             render(view:"profile")

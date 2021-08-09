@@ -1,8 +1,8 @@
 package linksharing
 
 class ReadingItem {
-//    resource
-//    user
+    Resources resource
+    User user
     boolean isRead
 
     static belongsTo = [resource:Resources,user:User]

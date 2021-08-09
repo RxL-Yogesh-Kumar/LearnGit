@@ -1,12 +1,12 @@
 package linksharing
 
-class DocumentResource {
+class DocumentResource  extends Resources{
     String filePath
 
-    static belongsTo = [resource: Resources]
+
 
     static constraints = {
-        filePath blank: false
+        filePath blank: true
     }
 
     static mapping = {

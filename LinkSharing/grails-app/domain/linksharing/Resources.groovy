@@ -2,8 +2,8 @@ package linksharing
 
 class Resources {
     String description
-//    created by user
-//    topic
+    User createdBy
+    Topic topic
     Date dateCreated
     Date lastUpdated
 

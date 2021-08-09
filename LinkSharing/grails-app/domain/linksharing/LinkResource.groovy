@@ -1,15 +1,10 @@
 package linksharing
 
-class LinkResource {
-    String url
+class LinkResource extends Resources {
 
-    static belongsTo = [resource: Resources]
-
+    String link
     static constraints = {
-        url blank: false
+        link blank: false
     }
 
-    static mapping = {
-        table 'LinkRes'
-    }
 }

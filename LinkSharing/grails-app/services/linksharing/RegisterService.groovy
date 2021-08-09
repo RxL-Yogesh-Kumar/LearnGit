@@ -13,7 +13,6 @@ class RegisterService {
 
 
             User u1 = new User(params)
-            println params
 
             def file = request.getFile('image')
             if (file && !file.empty) {
