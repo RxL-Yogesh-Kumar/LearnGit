@@ -208,7 +208,7 @@
                     <input type="text" class="input-field form-control" name="lastName" placeholder="Last name" required>
                     <input type="email" class="input-field form-control" name="email" placeholder="Email Id" required>
                     <input type="text" class="input-field form-control" name="userName" placeholder="Username" required>
-                    <input type="text" class="input-field form-control" name="securityQuestion" placeholder="Security Question" required>
+                    <input type="text" class="input-field form-control" name="securityQuestion" placeholder="Secuity ques:your first pet name" required>
                     <input type="password" class="input-field form-control" name="password" placeholder="Enter Password" required>
                     <input type="password" class="input-field form-control" name="confPassword" placeholder="confirm password" required>
                     <p id="message4">${flash.message}</p>
@@ -259,7 +259,7 @@
                                         <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="formGroupExampleInput" class="form-label">Security Question * </label>
+                                        <label for="formGroupExampleInput" class="form-label">Your first pet name * </label>
                                         <input type="text" name="securityQuestion" class="form-control" id="formGroupExampleInput" placeholder="" required>
                                     </div>
                                     <div class="mb-3">

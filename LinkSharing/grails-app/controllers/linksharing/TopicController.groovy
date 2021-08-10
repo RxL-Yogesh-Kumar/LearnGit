@@ -30,6 +30,12 @@ class TopicController {
         }
     }
 
+    def deleteTopic()
+    {
+        Topic t=Topic.get(params.id)
+        t.delete(flush:true)
+        redirect(controller: "dashboard",action: "dashboard")
+    }
 
     def toplist(){
         List<Topic> list=topicService.tlistMethod()

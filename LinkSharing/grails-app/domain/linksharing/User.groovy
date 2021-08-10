@@ -10,6 +10,7 @@ class User {
     String photo
     String securityQuestion
     boolean admin
+    boolean  active
     Date dateCreated
     Date lastUpdated
 

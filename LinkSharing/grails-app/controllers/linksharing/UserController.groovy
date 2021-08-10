@@ -85,7 +85,7 @@ def forgotPassword(){
             }
 
             else{
-                flash.error="failed"
+                flash.error="user already Exist"
             }
 
         }
@@ -158,6 +158,47 @@ def forgotPassword(){
         List<Topic> list=topiclistService.tlistMethod()
         render(view:"topiclist",model:[topicl:list])
     }
+
+
+    def activateUser(){
+        User u = User.findByUserName(params.name)
+        println params
+        if(u.isActive()){
+            flash.message="use already activate"
+        }
+        else{
+            u.active=true
+            u.save(flush:true,failOnError:true)
+        }
+        redirect(controller: "user",action: "admin")
+    }
+
+
+    def deactivateUser(){
+        User user=User.findByUserName(params.name)
+        if(user.isActive()){
+            user.active=false
+            user.save(flush:true,failOnError:true)
+
+        }
+        else{
+            flash.message="use already deactivate"
+        }
+        redirect(controller: "user",action: "admin")
+    }
+
+
+    def makeAdmin(){
+
+        User user =User.findByUserName(params.userName)
+        user.admin=true;
+
+        user.save(flush:true,failOnError:true)
+
+        redirect(controller: "user",action: "admin")
+    }
+
 }
+
 
 
