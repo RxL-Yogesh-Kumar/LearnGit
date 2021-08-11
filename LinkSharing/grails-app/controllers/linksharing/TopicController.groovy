@@ -32,7 +32,9 @@ class TopicController {
 
     def deleteTopic()
     {
-        Topic t=Topic.get(params.id)
+        Topic t=Topic.findById(params.id)
+        println t
+        Resources.where { Topic == t }.deleteAll()
         t.delete(flush:true)
         redirect(controller: "dashboard",action: "dashboard")
     }

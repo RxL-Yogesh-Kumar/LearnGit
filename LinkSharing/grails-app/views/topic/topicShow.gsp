@@ -477,7 +477,7 @@
                                     <g:else>
                                         <div class="col-auto">
                                             <div class="mb-3">
-                                                <a href="${it.link}" class="link-primary">Open Link</a>
+                                                <a href="${it.link}" class="link-primary" target="_blank">Open Link</a>
                                             </div>
                                         </div>
                                     </g:else>

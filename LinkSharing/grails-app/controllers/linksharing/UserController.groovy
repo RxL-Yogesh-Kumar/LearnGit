@@ -90,7 +90,7 @@ def forgotPassword(){
 
         }
 
-        redirect(actionName:"index")
+        redirect(action:"index")
     }
 
 
@@ -102,7 +102,7 @@ def forgotPassword(){
 
 
     def logout(){
-
+        session.invalidate()
         redirect(controller: "user",actionName: "index")
     }
 

@@ -2,7 +2,7 @@ package linksharing
 
 class ResourceController {
     def resourceService
-
+    def readingService
 
     def createDoc()
     {
@@ -51,5 +51,11 @@ class ResourceController {
         else{
             render "error"
         }
+    }
+    def markRead()
+    {
+        String name=session.user.userName
+        readingService.markAsReadMethod(params,name)
+        redirect(controller: "dashboard",action: "dashboard")
     }
 }

@@ -46,6 +46,17 @@ class TopicService {
         List<Topic> trendList=Topic.createCriteria().list(max:5){
             eq('visibility', Visibility.PUBLIC)
         }
+
+        Integer size=trendList.size()
+
+        trendList.sort{
+            x,y->y.resources.size()<=>x.resources.size()
+        }
+
+        if(size>5){
+            trendList=trendList.subList(0,5)
+        }
+
         return trendList
     }
 

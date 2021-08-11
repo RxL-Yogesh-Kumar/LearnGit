@@ -32,6 +32,7 @@
 
 <body>
 
+<h1>${flash.msg}</h1>
 
 <div class="container" >
     <nav class="navbar navbar-light bg-light justify-content-between" style = "width:100%">
@@ -104,7 +105,9 @@
                                         </div>
                                         <div class="col-auto">
                                             <div class="mb-3">
-                                                <a href="#" class="link-primary">View Post</a>
+                                                <g:link controller="dashboard" action="viewpost" params="[id:it.id]">
+                                                    View post
+                                                </g:link>
                                             </div>
                                         </div>
 
@@ -211,7 +214,6 @@
                     <input type="text" class="input-field form-control" name="securityQuestion" placeholder="Secuity ques:your first pet name" required>
                     <input type="password" class="input-field form-control" name="password" placeholder="Enter Password" required>
                     <input type="password" class="input-field form-control" name="confPassword" placeholder="confirm password" required>
-                    <p id="message4">${flash.message}</p>
                     <input type="file"   name="image" id="fileToUpload"><br>
                     <button class="btn btn-primary" type="submit">Register</button>
                 </g:form>
@@ -230,6 +232,7 @@
 
                 </nav>
                 <form  id="login" action="/user/loginUser">
+                    <p id="message4">${flash.message}</p>
                     <p id="msg">${flash.msg1}</p>
                     <div class="form-group" >
                         <input type="email" class="form-control" id="exampleInputEmail" name="email" aria-describedby="emailHelp" placeholder="Enter email" required>

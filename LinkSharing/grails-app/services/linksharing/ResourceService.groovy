@@ -22,6 +22,8 @@ class ResourceService {
         try{
 
             linkres.save(flush:true,failOnError:true)
+            List subscriberList=subscribersList(topic.id)
+            addToUnreadItem(subscriberList,linkres)
             return linkres
         }catch(Exception e){
             return null
@@ -48,6 +50,8 @@ class ResourceService {
 
         try{
             dr.save(flush:true,failOnError:true)
+            List subscriberList=subscribersList(topic.id)
+            addToUnreadItem(subscriberList,dr)
             return dr
         }catch(Exception e){
             return null
@@ -91,5 +95,51 @@ class ResourceService {
         else{
             return resList
         }
+    }
+
+    def subscribersList(topicId)
+    {
+        List userIds=Subscription.createCriteria().list{
+            eq('topic.id',topicId)
+        }
+        return userIds
+    }
+
+    def addToUnreadItem(subscriberList,newResource)
+    {
+        Boolean isRead=false
+        subscriberList.each{
+            User us=it.user
+            ReadingItem readItem=new ReadingItem(isRead:isRead,resource: newResource,user: us)
+            try{
+                readItem.save(flush:true,failOnError:true)
+                try{
+                    us.addToReadingItems(readItem)
+                    newResource.addToReadingItem(readItem)
+                    us.save(flush:true,failOnError:true)
+                    newResource.save(flush:true,failOnError:true)
+                }
+                catch (Exception e)
+                {
+                    return null
+                }
+            }
+            catch (Exception e)
+            {
+                return  null
+            }
+
+        }
+    }
+
+    def inboxListMethod(name)
+    {
+        User user=User.findByUserName(name)
+        List unList=ReadingItem.createCriteria().list{
+        eq('isRead',false)
+        eq('user.id',user.id)
+
+       }
+        return unList
     }
 }
