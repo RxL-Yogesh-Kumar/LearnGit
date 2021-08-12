@@ -20,27 +20,6 @@
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script type="text/javascript">
-        $( document ).ready( function() {
-            $( "#save" ).click( function (){
-                $.ajax( {
-
-                    url: "${createLink( controller: 'topic', action:'addTopic')}",
-                    type: "post",
-                    data:  $( '#topicForm' ).serialize(),
-                    success: function(response) {
-                        $("#profileDiv").load(" #profileDiv");
-
-                        $('#topicModal').modal('hide');
-                    },
-                    error: function(xhr) {
-
-                    }
-                } );
-            });
-        });
-
-    </script>
 
 </head>
 
@@ -56,6 +35,14 @@
 </h1>
 
 
+<h3>${flash.message}</h3>
+<h3>${flash.error1}</h3>
+<h3>${flash.message2}</h3>
+<h3>${flash.error2}</h3>
+<h3>${flash.message3}</h3>
+<h3>${flash.error3}</h3>
+
+
 
   <div class="border border-dark" style="margin: 8px; border-radius: 10px;">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -68,10 +55,10 @@
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <form class="d-flex" style="margin-left: 300px;">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <g:form controller="search" action="search" class="d-flex" style="margin-left: 300px;">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="word">
           <button class="btn btn-outline-success" name="search" type="submit">Search</button>
-        </form>
+        </g:form>
 
         <div class="collapse navbar-collapse links" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -89,7 +76,7 @@
                                   <span aria-hidden="true">&times;</span>
                               </button>
                           </div>
-                          <g:form id="topicForm" name="topicForm">
+                          <g:form controller="topic" action="addTopic" name="topicForm">
                           <div class="modal-body">
 
                                   <div class="row " style="margin-top: 20px; ">
@@ -114,10 +101,12 @@
 
                           </div>
 
+                              <div class="modal-footer">
+                                  <button type="submit" class="btn btn-primary">Save changes</button>
+                              </div>
+
                           </g:form>
-                          <div class="modal-footer">
-                              <button type="submit" id="save" class="btn btn-primary">Save changes</button>
-                          </div>
+
 
 
 
@@ -327,16 +316,30 @@
                 aria-expanded="false">
                 ${session.user.firstName}
               </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="/user/editProfile">Profile</a></li>
-                <li><a class="dropdown-item" href="/user/admin">Users</a></li>
-                <li><a class="dropdown-item" href="/topic/toplist">Topic</a></li>
-                <li><a class="dropdown-item" href="#">Post</a></li>
-                <li>
-                  <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item" href="/User/logout">Logout</a></li>
-              </ul>
+
+            <g:if test="${session.user.admin}">
+
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="/user/editProfile">Profile</a></li>
+                    <li><a class="dropdown-item" href="/user/admin">Users</a></li>
+                    <li><a class="dropdown-item" href="/topic/toplist">Topic</a></li>
+                    <li><a class="dropdown-item" href="#">Post</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="/User/logout">Logout</a></li>
+                </ul>
+            </g:if>
+
+                  <g:else>
+                      <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <li><a class="dropdown-item" href="/user/editProfile">Profile</a></li>
+                          <li>
+                              <hr class="dropdown-divider">
+                          </li>
+                          <li><a class="dropdown-item" href="/User/logout">Logout</a></li>
+                      </ul>
+                  </g:else>
             </li>
 
           </ul>
@@ -358,7 +361,7 @@
                               <div class="row" >
                                   <div class="col" >
                                       <figure class="figure">
-                                          <asset:image src="/profile/${session.user.userName}.png" width="100px" />
+                                          <asset:image src="${session.user.photo}" width="100px" />
 
                                           <!--     <img src="https://www.searchpng.com/wp-content/uploads/2019/02/User-Icon-PNG.png"
                                             id="pi1" class="figure-img img-fluid rounded" alt="...">-->
@@ -419,16 +422,28 @@
                               <div class="row">
                                   <div class="col-auto">
                                       <figure class="figure" id="fif">
-                                          <asset:image src="${it.topic.createdBy.photo}" width="65px" height="80px" />
+                                          <g:link controller="dashboard" action="userPublic" params="[id:it.topic.createdBy.id]"><asset:image src="${it.topic.createdBy.photo}" width="65px" height="80px" /></g:link>
+
                                       </figure>
                                   </div>
                                   <div class="col">
                                       <div class="row">
+                                          <div class="tName">
                                           <g:link controller="topic" action="topicShow" params="[id:it.topic.id]"> ${it.topic.topicName}</g:link>
+
+                                          </div>
+                                          </div>
+
+                                      <div class="editTopicName" style="display: none">
+                                          <g:form controller="topic" action="editTopic" params="[id:it.topic.id]">
+                                              <input type="text" value="${it.topic.topicName}" name="topicName" required/>
+                                              <input type="submit" value="save" name="submitButton" class="btn-sm float-right login_btn">
+                                          </g:form>
                                       </div>
+
+
                                       <div class="row">
                                           <div class="col">
-
 
                                               <h9 class="text-muted">Subscriptions:</h9>
                                               <a href="#" class="card-link">${it.topic.subscribers.size()}</a>
@@ -457,7 +472,7 @@
                                   <div class="row">
                                       <div class="col">
                                           <g:form controller="subscription" action="changeSeriousness">
-                                              <g:field type="hidden" name="id1" value="${it.id}"></g:field>
+                                              <g:field type="hidden" name="id" value="${it.topic.id}" ></g:field>
                                               <g:select onChange="submit()" class="form-control" name="seriousness" from="${['CASUAL','SERIOUS','VERY_SERIOUS']}" value="${it.seriousness}" />
                                           </g:form>
                                       </div>
@@ -476,14 +491,14 @@
 
 
                                       </div>
-                                      <div class="col-auto">
-                                          <a class="nav-link" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                                            height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
-                                              <path
-                                                      d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                                              <path
-                                                      d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-                                          </svg></a>
+                                      <div class="col-auto ">
+                                          <div class="buttonChange">
+                                              <button type ="submit" id="buttonChange" title="Edit topic"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                                                  <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                                              </svg></button>
+                                          </div>
+
+
 
 
                                       </div>
@@ -510,12 +525,10 @@
 
                                   <div class="row">
                                       <div class="col">
-                                          <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                              <option selected>${it.seriousness}</option>
-                                              <option value="1">Serious</option>
-                                              <option value="2">Very Serious</option>
-                                              <option value="3">Casual</option>
-                                          </select>
+                                          <g:form controller="subscription" action="changeSeriousness">
+                                              <g:field type="hidden" name="id" value="${it.id}"></g:field>
+                                              <g:select onChange="submit()" class="form-control" name="seriousness" from="${['CASUAL','SERIOUS','VERY_SERIOUS']}" value="${it.seriousness}" />
+                                          </g:form>
                                       </div>
 
 
@@ -553,7 +566,7 @@
                               <div class="row">
                                   <div class="col-auto">
                                       <figure class="figure" id="fif">
-                                          <asset:image src="${it.createdBy.photo}" width="65px" height="80px"/>
+                                        <g:link controller="dashboard" action="userPublic" params="[id:it.createdBy.id]"><asset:image src="${it.createdBy.photo}" width="65px" height="80px"/></g:link>
                                       </figure>
                                   </div>
 
@@ -653,10 +666,17 @@
                                       <g:else>
                                           <g:if test="${it.subscribers.user.email.contains(session.user.email)}">
                                               <g:link controller="subscription" action="unsubsTrend" params="[id:it.id]">Unsubscribe</g:link>
+                                              <div class="col">
+                                                  <g:form controller="subscription" action="changeSeriousness">
+                                                      <g:field type="hidden" name="id" value="${it.id}"></g:field>
+                                                      <g:select onChange="submit()" class="form-control" name="seriousness" from="${['CASUAL','SERIOUS','VERY_SERIOUS']}" value="${linksharing.Subscription.findByUserAndTopic(session.user,it).seriousness}" />
+                                                  </g:form>
+                                              </div>
 
                                           </g:if>
                                           <g:else>
                                               <g:link controller="subscription" action="subscribe" params="[id:it.id]">subscribe</g:link>
+
                                           </g:else>
                                       </g:else>
                                   </div>
@@ -806,9 +826,16 @@
 
   </div>
 
+<script>
+    $(document).ready(function(){
+        $(".buttonChange").click(function(){
+            $(".tName").hide();
+            $(".editTopicName").toggle("slow");
+        });
+    });
+</script>
 
-
-  <script>
+  %{--<script>
 
 var myModal = document.getElementById('myModal')
 var myInput = document.getElementById('myInput')
@@ -817,6 +844,6 @@ myModal.addEventListener('shown.bs.modal', function () {
   myInput.focus()
 })
   </script>
-</body>
+--}%</body>
 
 </html>

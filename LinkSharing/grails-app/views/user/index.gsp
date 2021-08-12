@@ -33,6 +33,7 @@
 <body>
 
 <h1>${flash.msg}</h1>
+<h3>${flash.notact}</h3>
 
 <div class="container" >
     <nav class="navbar navbar-light bg-light justify-content-between" style = "width:100%">
@@ -68,7 +69,7 @@
                                         </div>
                                         <div class="col">
                                             <div class="mb-3">
-                                                Topic Name:  <a href="#" class="link-primary">${it.topic.topicName}</a>
+                                                Topic Name:  <g:link controller="topic" action="topicShow" params="[id:it.topic.id]">${it.topic.topicName}</g:link>
                                             </div>
                                         </div>
                                     </div>

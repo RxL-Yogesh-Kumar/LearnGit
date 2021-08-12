@@ -54,5 +54,17 @@ class DashboardController {
     }
 
 
+    def userPublic(){
+
+        User user = User.findById(params.id)
+        String name = user.userName
+        List toplist = User.findByUserName(name).topics.asList()
+        List reslist = User.findByUserName(name).resources.asList()
+        List subslist = User.findByUserName(name).subscriptions.asList()
+
+        render(view: "userpub", model: [user: user, toplist:toplist , reslist: reslist, subslist: subslist])
+
+    }
+
 
 }

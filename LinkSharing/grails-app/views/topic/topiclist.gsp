@@ -46,7 +46,9 @@
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Link Sharing</a>
+            <g:link controller="dashboard" action="dashboard">
+                Link Sharing
+            </g:link>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -298,7 +300,7 @@
                     <td>${Topic.topicName}</td>
                     <td>${Topic.createdBy.userName}</td>
                     <td>${Topic.visibility}</td>
-                    <td><a href="#"> Delete </a></td>
+                    <td> <g:link controller="topic" action="deleteTopic" params="[id:Topic.id]" onclick="return confirm('Are you sure you want to delete this item')">DELETE</g:link></td>
 
                 </tr>
             </g:each>

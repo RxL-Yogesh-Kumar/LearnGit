@@ -34,236 +34,250 @@
 </head>
 
 <body>
-<div class="container-fluid">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Link Sharing</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+<g:if test="${session.user}">
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <g:link controller="dashboard" action="dashboard">
+                    Link Sharing
+                </g:link>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-            <form class="d-flex" style="margin-left: 300px;">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" name="search" type="submit">Search</button>
-            </form>
+                <form class="d-flex" style="margin-left: 300px;">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" name="search" type="submit">Search</button>
+                </form>
 
-            <div class="collapse navbar-collapse links" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <button class="btn" data-toggle="modal" data-target="#exampleModalCenter" title="create topic" style="margin-left: 30px;"><i
-                            class="fas fa-link fa-lg" style=" font-size: 22px;display: block"></i>
-                    </button>
+                <div class="collapse navbar-collapse links" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <button class="btn" data-toggle="modal" data-target="#exampleModalCenter" title="create topic" style="margin-left: 30px;"><i
+                                class="fas fa-link fa-lg" style=" font-size: 22px;display: block"></i>
+                        </button>
 
-                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle"><b>CREATE TOPIC</b></h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle"><b>CREATE TOPIC</b></h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <g:form controller="topic" action="addTopic">
+                                        <div class="modal-body">
+
+                                            <div class="row " style="margin-top: 20px; ">
+                                                <label  class="col-sm-5 col-form-label"><b>Name*:</b></label>
+
+                                                <div class="col-sm-7"><input type="textarea" name="topicName"
+                                                                             class="form-control shadow p-3 mb-5 bg-white rounded"
+                                                                             placeholder="Enter Name" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <label  class="col-sm-5 col-form-label"><b> Visibility*:</b></label>
+
+                                                <div class="col-sm-7" required>
+                                                    <select class="form-control" name="visibility" id="createsel">
+                                                        <option >PRIVATE</option>
+                                                        <option>PUBLIC</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </g:form>
+
                                 </div>
-                                <g:form controller="topic" action="addTopic">
+                            </div>
+                        </div>
+
+                        <button class="btn" data-toggle="modal" data-target="#invite" title="Send Invitation"><i
+                                class="fas fa-envelope" style=" font-size: 22px;display: block"></i>
+                        </button>
+                        <div class="modal fade" id="invite" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="invite"><b>Send Invite</b></h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+
                                     <div class="modal-body">
-
                                         <div class="row " style="margin-top: 20px; ">
-                                            <label  class="col-sm-5 col-form-label"><b>Name*:</b></label>
+                                            <label  class="col-sm-5 col-form-label"><b>E-Mail*:</b></label>
 
-                                            <div class="col-sm-7"><input type="textarea" name="topicName"
+                                            <div class="col-sm-7"><input type="textarea" name="name"
+                                                                         class="form-control shadow p-3 mb-5 bg-white rounded"
+                                                                         placeholder="Enter Email" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <label  class="col-sm-5 col-form-label"><b> Topic*:</b></label>
+
+                                            <div class="col-sm-7" required>
+                                                <select class="form-control" id="sel1">
+                                                    <option>public</option>
+                                                    <option>private</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary " data-dismiss="modal">Invite</button>
+                                        <button type="button" class="btn btn-secondary">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn" data-toggle="modal" data-target="#shareLink" title="create topic"><i
+                                class="fas fa-link fa-lg" style=" font-size: 22px;display: block"></i>
+                        </button>
+
+                        <div class="modal fade" id="shareLink" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="shareLink"><b>Share link</b></h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <div class="row " style="margin-top: 20px; ">
+                                            <label  class="col-sm-5 col-form-label"><b>Link*:</b></label>
+
+                                            <div class="col-sm-7"><input type="textarea" name="name"
                                                                          class="form-control shadow p-3 mb-5 bg-white rounded"
                                                                          placeholder="Enter Name" required>
                                             </div>
                                         </div>
 
+                                        <div class="mb-3">
+                                            <label for="exampleFormControlTextarea1" class="form-label"><b>Description</b></label>
+                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                        </div>
+
                                         <div class="row">
-                                            <label  class="col-sm-5 col-form-label"><b> Visibility*:</b></label>
+                                            <label  class="col-sm-5 col-form-label"><b> Topic*:</b></label>
 
                                             <div class="col-sm-7" required>
-                                                <select class="form-control" name="visibility" id="createsel">
-                                                    <option >PRIVATE</option>
-                                                    <option>PUBLIC</option>
+                                                <select class="form-control" id="sel1">
+                                                    <option>public</option>
+                                                    <option>private</option>
                                                 </select>
                                             </div>
                                         </div>
-
                                     </div>
 
                                     <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
                                     </div>
-                                </g:form>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <button class="btn" data-toggle="modal" data-target="#invite" title="Send Invitation"><i
-                            class="fas fa-envelope" style=" font-size: 22px;display: block"></i>
-                    </button>
-                    <div class="modal fade" id="invite" tabindex="-1" role="dialog"
-                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="invite"><b>Send Invite</b></h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-
-                                <div class="modal-body">
-                                    <div class="row " style="margin-top: 20px; ">
-                                        <label  class="col-sm-5 col-form-label"><b>E-Mail*:</b></label>
-
-                                        <div class="col-sm-7"><input type="textarea" name="name"
-                                                                     class="form-control shadow p-3 mb-5 bg-white rounded"
-                                                                     placeholder="Enter Email" required>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <label  class="col-sm-5 col-form-label"><b> Topic*:</b></label>
-
-                                        <div class="col-sm-7" required>
-                                            <select class="form-control" id="sel1">
-                                                <option>public</option>
-                                                <option>private</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary " data-dismiss="modal">Invite</button>
-                                    <button type="button" class="btn btn-secondary">Cancel</button>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <button class="btn" data-toggle="modal" data-target="#shareLink" title="create topic"><i
-                            class="fas fa-link fa-lg" style=" font-size: 22px;display: block"></i>
-                    </button>
+                        <button class="btn" data-toggle="modal" data-target="#shareDoc" title="create topic"><i
+                                class="fas fa-file fa-lg" style=" font-size: 22px;display: block"></i>
+                        </button>
 
-                    <div class="modal fade" id="shareLink" tabindex="-1" role="dialog"
-                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="shareLink"><b>Share link</b></h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
+                        <div class="modal fade" id="shareDoc" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="shareDoc"><b>Share Document</b></h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
 
-                                <div class="modal-body">
-                                    <div class="row " style="margin-top: 20px; ">
-                                        <label  class="col-sm-5 col-form-label"><b>Link*:</b></label>
+                                    <div class="modal-body">
+                                        <div class="row " style="margin-top: 20px; ">
+                                            <label  class="col-sm-5 col-form-label"><b>Link*:</b></label>
 
-                                        <div class="col-sm-7"><input type="textarea" name="name"
-                                                                     class="form-control shadow p-3 mb-5 bg-white rounded"
-                                                                     placeholder="Enter Name" required>
+                                            <div class="col-sm-7"><input type="file" name="name"
+                                                                         class="form-control shadow p-3 mb-5 bg-white rounded"
+                                                                         placeholder="attach file" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="exampleFormControlTextarea1" class="form-label"><b>Description</b></label>
+                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                        </div>
+
+                                        <div class="row">
+                                            <label  class="col-sm-5 col-form-label"><b> Topic*:</b></label>
+
+                                            <div class="col-sm-7" required>
+                                                <select class="form-control" id="">
+                                                    <option>PUBLIC</option>
+                                                    <option>PRIVATE</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="mb-3">
-                                        <label for="exampleFormControlTextarea1" class="form-label"><b>Description</b></label>
-                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Share</button>
+                                        <button type="button" class="btn btn-secondary ">Cancel</button>
                                     </div>
-
-                                    <div class="row">
-                                        <label  class="col-sm-5 col-form-label"><b> Topic*:</b></label>
-
-                                        <div class="col-sm-7" required>
-                                            <select class="form-control" id="sel1">
-                                                <option>public</option>
-                                                <option>private</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Save changes</button>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <button class="btn" data-toggle="modal" data-target="#shareDoc" title="create topic"><i
-                            class="fas fa-file fa-lg" style=" font-size: 22px;display: block"></i>
-                    </button>
-
-                    <div class="modal fade" id="shareDoc" tabindex="-1" role="dialog"
-                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="shareDoc"><b>Share Document</b></h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-
-                                <div class="modal-body">
-                                    <div class="row " style="margin-top: 20px; ">
-                                        <label  class="col-sm-5 col-form-label"><b>Link*:</b></label>
-
-                                        <div class="col-sm-7"><input type="file" name="name"
-                                                                     class="form-control shadow p-3 mb-5 bg-white rounded"
-                                                                     placeholder="attach file" required>
-                                        </div>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="exampleFormControlTextarea1" class="form-label"><b>Description</b></label>
-                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                                    </div>
-
-                                    <div class="row">
-                                        <label  class="col-sm-5 col-form-label"><b> Topic*:</b></label>
-
-                                        <div class="col-sm-7" required>
-                                            <select class="form-control" id="">
-                                                <option>PUBLIC</option>
-                                                <option>PRIVATE</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Share</button>
-                                    <button type="button" class="btn btn-secondary ">Cancel</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
 
-                    <li class="nav-item dropdown" style="margin-left: 40px;">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-                           aria-expanded="false">
-                            ${session.user.userName}
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Profile</a></li>
-                            <li><a class="dropdown-item" href="/user/admin">Users</a></li>
-                            <li><a class="dropdown-item" href="/topic/toplist">Topic</a></li>
-                            <li><a class="dropdown-item" href="#">Post</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="/User/logout">Logout</a></li>
-                        </ul>
-                    </li>
+                        <li class="nav-item dropdown" style="margin-left: 40px;">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                ${session.user.userName}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">Profile</a></li>
+                                <li><a class="dropdown-item" href="/user/admin">Users</a></li>
+                                <li><a class="dropdown-item" href="/topic/toplist">Topic</a></li>
+                                <li><a class="dropdown-item" href="#">Post</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="/User/logout">Logout</a></li>
+                            </ul>
+                        </li>
 
-                </ul>
+                    </ul>
 
+                </div>
             </div>
-        </div>
+        </nav>
+    </div>
+</g:if>
+<g:else>
+    <nav class="navbar navbar-light bg-light justify-content-between" style = "width:100%">
+        <a class="navbar-brand"><u>Link Sharing</u></a>
+        <form class="form-inline">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
     </nav>
-</div>
+</g:else>
+
 
 
 <div class="container-fluid">
@@ -481,14 +495,12 @@
                                             </div>
                                         </div>
                                     </g:else>
+
                                     <div class="col-auto">
                                         <div class="mb-3">
-                                            <a href="#" class="link-primary">Mark as read</a>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="mb-3">
-                                            <a href="#" class="link-primary">View Post</a>
+                                            <g:link controller="dashboard" action="viewpost" params="[id:it.id]">
+                                                View post
+                                            </g:link>
                                         </div>
                                     </div>
 

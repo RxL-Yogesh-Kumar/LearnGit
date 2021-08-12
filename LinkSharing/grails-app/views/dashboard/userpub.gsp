@@ -12,21 +12,24 @@
     <link href="dash.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="dashboard.css">
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <asset:javascript src="Rating.js"/>
-    <asset:stylesheet src="viewpost.css"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <title>Post Link sharing app</title>
-    <script>
-        var rateurl = "${createLink(controller: 'resourceRating',action: 'rate')}"
-    </script>
+    <title>User Profile Link sharing app</title>
     <style>
+    #fif {
+        width: 2cm;
+        height: 2cm;
+    }
+
+    .divider {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
 
     </style>
 </head>
@@ -272,338 +275,272 @@
         <div class="col-md-6">
             <div class="row mt-2"> </div>
             <div class="row mt-2"> </div>
-            <div class="card">
+            <div class="card" style="width: 25rem;">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-auto">
-                            <figure class="figure" id="fif">
-                                <asset:image src="${resource.createdBy.photo}" width="80px" height="90px"/>
+                        <div class="col">
+                            <figure class="figure">
+                                <asset:image src="${user.photo}" height="90px" width="80px"/>
                             </figure>
                         </div>
-                        <div class="col">
+                        <div class="col-auto">
+                            <div class="row">
+                                <h5 class="card-title">${user.firstName} ${user.lastName}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">@${user.userName}</h6>
+                            </div>
                             <div class="row">
                                 <div class="col">
-                                    <h5 class="card-title">${resource.createdBy.firstName} ${resource.createdBy.lastName} <h6
-                                            class="card-subtitle mb-2 text-muted">@${resource.createdBy.userName}
-                                        ${resource.lastUpdated}</h6>
-                                    </h5>
+                                    <h9>Subscription</h9>
+                                    <a href="#" class="card-link">${user.subscriptions.size()}</a>
                                 </div>
                                 <div class="col">
-                                    <div class="mb-3">
-                                        <a href="#" class="link-primary">${resource.topic.topicName}</a>
-                                    </div>
+                                    <h9>Topics</h9>
+                                    <a href="#" class="card-link">${user.topics.size()}</a>
                                 </div>
                             </div>
-                            <form id="rating-form">
-                            <span class="rating-star">
-                                <input type="radio" name="rating" value="5" onclick="rate(${resource.id},5)"><span class="star"></span>
-
-                                <input type="radio" name="rating" value="4" onclick="rate(${resource.id},4)"><span class="star"></span>
-
-                                <input type="radio" name="rating" value="3" onclick="rate(${resource.id},3)"><span class="star"></span>
-
-                                <input type="radio" name="rating" value="2" onclick="rate(${resource.id},2)"><span class="star"></span>
-
-                                <input type="radio" name="rating" value="1" onclick="rate(${resource.id},1)"><span class="star"></span>
-                            </span>
-                        </form>
-                            <span>rated By:${resource.resourceRated.size()}</span>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <p>${resource.description}</p>
-
-                    </div>
-
-
-
-                    <div class="row">
-                        <div class="col">
-
-                            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                             fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
-                                <path
-                                        d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
-                            </svg></a>
-                            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                             fill="currentColor" class="bi bi-twitter" viewBox="0 0 16 16">
-                                <path
-                                        d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
-                            </svg></a>
-                            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                             fill="currentColor" class="bi bi-google" viewBox="0 0 16 16">
-                                <path
-                                        d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z" />
-                            </svg></a>
-
 
                         </div>
-                        <g:if test="${resource.createdBy.userName.equals(session.user.userName)}">
-                            <div class="col-auto">
-
-                                <div class="mb-3">
-                                    <g:link controller="resource" action="deleteRes" class="link-primary" params="[id:resource.id]">Delete</g:link>
-                                </div>
-                            </div>
-                            <div class="col-auto">
-                                <div class="mb-3">
-                                    <a href="#" class="link-primary">Edit</a>
-                                </div>
-                            </div>
-                        </g:if>
-
-                        <g:if test="${resource.hasProperty("filePath")}">
-                            <div class="col-auto">
-                                <div class="mb-3">
-                                    <g:link controller="resource" action="saveFile" params="[id:it.id]" class="link-primary">Download</g:link>
-                                </div>
-                            </div>
-                        </g:if>
-
-                        <g:else>
-                            <div class="col-auto">
-                                <div class="mb-3">
-                                    <a href="${resource.link}" target="_blank" class="link-primary">Open Link</a>
-                                </div>
-                            </div>
-                        </g:else>
 
                     </div>
 
                 </div>
             </div>
 
+            <div class="row mt-2"> </div>
+            <div class="row mt-2"> </div>
+
+            <div class="card" id="cardd">
+                <div class="card-header">
+                    Topics
+                </div>
+                <g:each in="${toplist}" var="it">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <a href="#" class="link-primary">${it.topicName}</a>
+                            </div>
+                            <div class="col">
+                                Subscriptions:${it.subscribers.size()}
+
+                            </div>
+                            <div class="col">
+                                Post:${it.resources.size()}
+
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col">
+                                        <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                            <option selected>select</option>
+                                            <option value="1">Serious</option>
+                                            <option value="2">Very Serious</option>
+                                            <option value="3">Casual</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col">
+                                        <a class="nav-link" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                          height="16" fill="currentColor" class="bi bi-envelope"
+                                                                          viewBox="0 0 16 16">
+                                            <path
+                                                    d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z" />
+                                        </svg></a>
+
+
+                                    </div>
+
+
+
+
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                </g:each>
+
+
+            </div>
+
+
+
+            <div class="row mt-2"> </div>
+            <div class="row mt-2"> </div>
+
+            <div class="card" id="cardd">
+                <div class="card-header">
+                    Subscription
+                </div>
+                <g:each in="${subslist}" var="it">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <a href="#" class="link-primary">${it.topic.topicName}</a>
+                            </div>
+                            <div class="col">
+                                Subscriptions
+
+                            </div>
+                            <div class="col">
+                                Post
+
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col">
+                                        <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                            <option selected>select</option>
+                                            <option value="1">Serious</option>
+                                            <option value="2">Very Serious</option>
+                                            <option value="3">Casual</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col">
+                                        <a class="nav-link" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                          height="16" fill="currentColor" class="bi bi-envelope"
+                                                                          viewBox="0 0 16 16">
+                                            <path
+                                                    d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z" />
+                                        </svg></a>
+
+
+                                    </div>
+
+
+
+
+
+
+                                </div>
+
+                            </div>
+                            <div class="col">
+                                <a href="#" class="link-primary">${it.topic.subscribers.size()}</a>
+                            </div>
+                            <div class="col">
+                                <a href="#" class="link-primary">${it.topic.resources.size()}</a>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                </g:each>
+
+
+            </div>
+
+
+
+
+
         </div>
-
-
-
-
-
         <div class="col-md-6">
             <div class="row mt-2"> </div>
             <div class="row mt-2"> </div>
 
             <div class="card" id="cardd">
                 <div class="card-header">
-                    Trending Topics
-                </div>
-                <g:each in="${trendList}" var="it">
-                    <div class="card-body">
-
-                        <div class="row">
-                            <div class="col-auto">
-                                <figure class="figure" id="fif">
-                                    <asset:image src="${it.createdBy.photo}" width="65px" height="80px"/>
-                                </figure>
-                            </div>
-
-                            <div class="col">
-                                <div class="row">
-                                    <h5 class="card-title">
-                                        <g:link controller="topic" action="topicShow" params="[id:it.id]"> ${it.topicName}</g:link>
-                                    </h5>
-
-                                </div>
-
-                                <div class="row">
-                                    <div class="col">
-
-                                        <h9 class="text-muted">Subscriptions</h9>
-                                        <a href="#" class="card-link">${it.subscribers.size()}</a>
-
-                                    </div>
-
-                                    <div class="col">
-                                        <h9 class="text-muted">Topics</h9>
-                                        <a href="#" class="card-link">${it.resources.size()}</a>
-
-                                    </div>
-
-                                    <div class="col">
-                                        <h9 class="text-muted">@${it.createdBy.userName}</h9>
-
-
-                                    </div>
-
-                                </div>
-                                <g:if test="${it.createdBy.userName.equals(session.user.userName)}">
-                                    <div class="row">
-
-                                        <div class="col">
-                                            <g:form controller="subscription" action="changeSeriousness">
-                                                <g:field type="hidden" name="id" value="${it.id}"></g:field>
-                                                <g:select onChange="submit()" class="form-control" name="seriousness" from="${['CASUAL','SERIOUS','VERY_SERIOUS']}" value="${linksharing.Subscription.findByUserAndTopic(session.user,it).seriousness}" />
-                                            </g:form>
-                                        </div>
-
-                                        <div class="col">
-                                            <g:form controller="subscription" action="changeVisibility">
-                                                <g:field type="hidden" name="id" value="${it.id}"></g:field>
-                                                <g:select onChange="submit()" class="form-control" name="visibility" from="${['PUBLIC','PRIVATE']}" value="${it.visibility}" />
-                                            </g:form>
-                                        </div>
-
-                                        <div class="col-auto">
-                                            <a class="nav-link" href="#"><svg xmlns="http://www.w3.org/2000/svg"
-                                                                              width="16"
-                                                                              height="16" fill="currentColor"
-                                                                              class="bi bi-envelope"
-                                                                              viewBox="0 0 16 16">
-                                                <path
-                                                        d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z"/>
-                                            </svg></a>
-
-                                        </div>
-
-                                        <div class="col-auto">
-                                            <a class="nav-link" href="#"><svg xmlns="http://www.w3.org/2000/svg"
-                                                                              width="16"
-                                                                              height="16" fill="currentColor"
-                                                                              class="bi bi-plus-circle"
-                                                                              viewBox="0 0 16 16">
-                                                <path
-                                                        d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                                <path
-                                                        d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                                            </svg></a>
-
-                                        </div>
-
-                                        <div class="col">
-                                            <g:link controller="topic" action="deleteTopic" params="[id:it.id]" onclick="return confirm('Are you sure you want to delete this item')">
-                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                     width="16"
-                                                     height="16" fill="currentColor"
-                                                     class="bi bi-trash"
-                                                     viewBox="0 0 16 16">
-                                                    <path
-                                                            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                                                    <path fill-rule="evenodd"
-                                                          d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                                                </svg>
-
-                                            </g:link>
-                                        </div>
-
-                                    </div>
-
-                                </g:if>
-
-
-                                <g:else>
-                                    <g:if test="${it.subscribers.user.email.contains(session.user.email)}">
-                                        <g:link controller="subscription" action="unsubsTrend" params="[id:it.id]">Unsubscribe</g:link>
-
-                                    </g:if>
-                                    <g:else>
-                                        <g:link controller="subscription" action="subscribe" params="[id:it.id]">subscribe</g:link>
-                                    </g:else>
-                                </g:else>
-                            </div>
-
-                        </div>
-                    </div>
-                </g:each>
-                <div class="divider"></div>
-                %{--<div class="card-body">
                     <div class="row">
-                        <div class="col-auto">
-                            <figure class="figure" id="fif">
-                                <img src="https://www.searchpng.com/wp-content/uploads/2019/02/User-Icon-PNG.png" id="pi1"
-                                     class="figure-img img-fluid rounded" alt="...">
-                            </figure>
-
+                        <div class="col">
+                            <h5>Posts</h5>
                         </div>
                         <div class="col">
-                            <div class="row">
-                                <div class="card-title">
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="mb-3">
-                                                Uday Pratap Singh
+                            <div class="container">
+                                <div class="input-group">
+                                    <input type="search" class="form-control rounded" placeholder="Search"
+                                           aria-label="Search" aria-describedby="search-addon" />
+                                    <button type="button" class="btn btn-outline-primary">search</button>
+                                </div>
+                            </div>
+                        </div>
 
+                    </div>
+                </div>
+                <g:each in="${reslist}" var="it">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="mb-3">
+                                <a href="#" class="link-primary">${it.topic.topicName}</a>
+                            </div>
+                            <div class="col">
+
+                                <p class="card-text">${it.description}
+                                </p>
+                                <div class="row">
+                                    <div class="col">
+
+                                        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                         fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+                                            <path
+                                                    d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
+                                        </svg></a>
+                                        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                         fill="currentColor" class="bi bi-twitter" viewBox="0 0 16 16">
+                                            <path
+                                                    d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
+                                        </svg></a>
+                                        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                         fill="currentColor" class="bi bi-google" viewBox="0 0 16 16">
+                                            <path
+                                                    d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z" />
+                                        </svg></a>
+
+
+                                    </div>
+                                    <g:if test="${it.hasProperty("filePath")}">
+                                        <div class="col-auto">
+                                            <div class="mb-3">
+                                                <g:link controller="resource" action="saveFile" params="[id:it.id]" class="link-primary">Download</g:link>
                                             </div>
                                         </div>
+                                    </g:if>
+
+                                    <g:else>
                                         <div class="col-auto">
-
-                                            <a href="#" class="link-primary">Grails</a>
-
+                                            <div class="mb-3">
+                                                <a href="${it.link}" target="_blank" class="link-primary">Open Link</a>
+                                            </div>
+                                        </div>
+                                    </g:else>
+                                    <div class="col-auto">
+                                        <div class="mb-3">
+                                            <a href="#" class="link-primary">Mark as read</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="mb-3">
+                                            <a href="#" class="link-primary">View Post</a>
                                         </div>
                                     </div>
 
                                 </div>
 
                             </div>
-                            <div class="row">
-                                <div class="col">
-
-
-                                    <h9 class="text-muted">Subscriptions</h9>
-                                    <a href="#" class="card-link">30</a>
-
-                                </div>
-
-                                <div class="col">
-                                    <h9 class="text-muted">Topics</h9>
-                                    <a href="#" class="card-link">30</a>
-
-                                </div>
-
-                                <div class="col">
-                                    <h9 class="text-muted">@Uday</h9>
-                                    <a href="#" class="card-link">Unsubscribed</a>
-
-                                </div>
-
-                            </div>
-
 
                         </div>
 
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-
-                                <option >Serious</option>
-                                <option >Very Serious</option>
-                                <option>Casual</option>
-                            </select>
-                        </div>
-                        <div class="col">
-                            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                <option selected>select</option>
-                                <option value="1">Pubic</option>
-                                <option value="2">Private</option>
-
-                            </select>
-                        </div>
-                        <div class="col-auto">
-                            <a href="#" class="link-primary">Edit</a>
+                    <div class="divider"></div>
+                </g:each>
 
 
-                        </div>
-                        <div class="col">
-                            <a href="#" class="link-primary">Delete</a>
-
-
-                        </div>
-
-
-
-
-
-                    </div>
-
-
-                </div>--}%
             </div>
 
         </div>
+        <div class="row-mt-2"></div>
 
     </div>
-    <div class="row-mt-2"></div>
 </div>
 
 
@@ -648,6 +585,3 @@
 </body>
 
 </html>
-
-
-

@@ -13,6 +13,7 @@ class RegisterService {
 
 
             User u1 = new User(params)
+            u1.active=true
 
             def file = request.getFile('image')
             if (file && !file.empty) {
@@ -20,6 +21,11 @@ class RegisterService {
                 file.transferTo(photo)
                 u1.photo = "/profile/${params.userName}.png"
             }
+
+                else{
+                u1.photo= "/profile/defimage.png"
+            }
+
 
             try{
                 u1.save(flush:true,failOnError:true)

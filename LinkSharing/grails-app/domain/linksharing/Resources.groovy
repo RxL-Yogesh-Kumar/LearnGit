@@ -8,6 +8,7 @@ class Resources {
     Date lastUpdated
 
     static belongsTo = [createdBy:User,topic:Topic]
+    static  hasMany = [resourceRated: ResourceRating]
 
     static constraints = {
     }

@@ -10,7 +10,9 @@ class TopicController {
     def addTopic()
     {
         Topic t=Topic.findByTopicName(params.topicName)
-        if(t){
+        User u = User.findByUserName(session.user.userName)
+        def list=u.topics.asList()
+        if(list.contains(t)){
             flash.messagetopic="topic already exist"
             redirect (controller:'dashboard',action:'dashboard')
         }
@@ -34,7 +36,6 @@ class TopicController {
     {
         Topic t=Topic.findById(params.id)
         println t
-        Resources.where { Topic == t }.deleteAll()
         t.delete(flush:true)
         redirect(controller: "dashboard",action: "dashboard")
     }
@@ -70,7 +71,20 @@ class TopicController {
         List resList=resourceService.resList(topicId)
         List sublist=subscriptionService.topicSubscriptions(topicId)
 
+        int tcount= User.findByUserName(session.user.userName).topics.size()
+
+        int scount=User.findByUserName(session.user.userName).subscriptions.size()
+
+
         render(view:"topicShow",model: [topic:topic,sub:sub,subCount:subCount,postCount:postCount,subList:sublist,resList:resList])
+    }
+
+    def editTopic(){
+        Topic topic = Topic.findById(params.id)
+        println topic
+        topic.topicName = params.topicName
+        topic.save(flush:true,failOnError:true)
+        redirect(controller: "dashboard",action: "dashboard")
     }
 
 }

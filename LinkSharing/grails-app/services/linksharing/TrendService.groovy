@@ -30,7 +30,7 @@ class TrendService {
         {
             m.add(Resources.findById(s[i]))
         }
-        /*m = m.reverse()*/
+        m = m.reverse()
         if(m.size()>5)
         {
             m=m.subList(0,5)

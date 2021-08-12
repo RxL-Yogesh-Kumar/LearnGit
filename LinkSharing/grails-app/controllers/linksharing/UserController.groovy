@@ -47,23 +47,34 @@ def forgotPassword(){
 }
 
     def loginUser(){
-        def u = loginService.loginUser(params)
-        if(u!= null){
-            if(u.password==params.password){
-                session.setAttribute('user',u)
-                redirect (controller:"dashboard",action: "dashboard")
 
-            }
-            else{
-                flash.msg1="password incorrect"
-                redirect (actionName: "index")
-            }
+        def u = loginService.loginUser(params)
+
+        if(u.active==false){
+
+            flash.notact="user not active"
+            redirect(actionName: "index")
         }
         else
         {
-            flash.message="user not exist"
+            if(u!= null){
+                if(u.password==params.password){
+                    session.setAttribute('user',u)
+                    redirect (controller:"dashboard",action: "dashboard")
 
-            redirect(actionName: "index")
+                }
+                else{
+                    flash.msg1="password incorrect"
+                    redirect (actionName: "index")
+                }
+            }
+            else
+            {
+                flash.message="user not exist"
+
+                redirect(actionName: "index")
+            }
+
         }
 
 
@@ -107,9 +118,17 @@ def forgotPassword(){
     }
 
     def editProfile(){
-        int tcount= User.findByUserName(session.user.userName).topics.size()
-        int scount=User.findByUserName(session.user.userName).subscriptions.size()
-        render(view: "profile", model: [tcount:tcount,scount:scount])
+        User user=User.findByUserName(session.user.userName)
+        int tcount= user.topics.size()
+
+        int scount=user.subscriptions.size()
+
+        List mytop=user.topics.asList()
+
+
+        int etcount= User.findByUserName(session.user.userName).topics.size()
+        int escount=User.findByUserName(session.user.userName).subscriptions.size()
+        render(view: "profile", model: [tcount:tcount,scount:scount,mytop:mytop,escount:escount,etcount:etcount])
     }
 
     def updatePassword(){
@@ -117,13 +136,15 @@ def forgotPassword(){
             String name=session.user.userName
         println name
         println params
-        /*if(params.newPassward != params.confirm)
+        if(params.password != params.confPassword)
         {
             flash.unmatch="password not equal confirm password"
             render(view: "profile")
         }
-        else*/
-      //  {
+        else
+       {
+
+
             def user=updateService.updatePassword(params,name)
             if(user)
             {
@@ -134,15 +155,17 @@ def forgotPassword(){
                 flash.error="not updated"
             }
 
-       // }
+           render(view: "profile")
+       }
 
 
     }
 
     def updateProfile()
     {
+
         String name=session.user.userName
-        def u=updateService.updateProfile(params,name)
+        def u=updateService.updateProfile(params,name,request)
         if(u){
             session.setAttribute("user",u)
             render(view:"profile")
@@ -197,6 +220,8 @@ def forgotPassword(){
 
         redirect(controller: "user",action: "admin")
     }
+
+
 
 }
 

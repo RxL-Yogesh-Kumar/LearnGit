@@ -7,7 +7,7 @@ class SendMailController {
         if(user) {
             Topic topic = Topic.findByTopicName(params.topicName)
             Long topicId = topic.id
-            String link = "http://localhost:7979" + createLink(controller: "subscription", action: "sendSubscriptionInvite", params: [id: topicId, email: user.email])
+            String link = "http://localhost:7676" + createLink(controller: "subscription", action: "sendSubscriptionInvite", params: [id: topicId, email: user.email])
 
             sendMail {
                 to "${params.email}"
@@ -18,7 +18,7 @@ class SendMailController {
             redirect(controller: "dashboard", action: "dashboard")
         }
         else {
-            flash.error="No Such User Exist"
+            flash.error1="No Such User Exist"
             redirect(controller: "dashboard",action: "dashboard")
         }
     }

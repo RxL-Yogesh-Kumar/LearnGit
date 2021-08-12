@@ -13,10 +13,12 @@ class ResourceController {
         if(docR)
         {
             redirect(controller:"dashboard" , action:"dashboard")
+            flash.message2="document attached successfully"
         }
         else
         {
             redirect(controller:"dashboard" , action:"dashboard")
+            flash.error2="try again"
         }
     }
 
@@ -30,10 +32,12 @@ class ResourceController {
         if(linkres)
         {
             redirect(controller:"dashboard" , action:"dashboard")
+            flash.message3="link attached successfully"
         }
         else
         {
             redirect(controller:"dashboard" , action:"dashboard")
+            flash.error2="try again"
         }
     }
 
@@ -56,6 +60,13 @@ class ResourceController {
     {
         String name=session.user.userName
         readingService.markAsReadMethod(params,name)
+        redirect(controller: "dashboard",action: "dashboard")
+    }
+
+    def deleteRes()
+    {
+        Resources rsc = Resources.findById(params.id)
+        rsc.delete(flush:true)
         redirect(controller: "dashboard",action: "dashboard")
     }
 }

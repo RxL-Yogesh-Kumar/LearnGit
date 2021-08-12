@@ -57,7 +57,7 @@ class SubscriptionController {
     }
 
     def changeSeriousness(){
-        Subscription subscription=Subscription.get(params.id1)
+        Subscription subscription=Subscription.get(params.id)
         if(subscription)
         {
             subscription.seriousness=params.seriousness
@@ -70,6 +70,9 @@ class SubscriptionController {
         else{
             User user=User.findByUserName(session.user.userName)
             Topic topic=Topic.findById(params.id)
+            println "kkjjhggg"
+            println user
+            println topic
 
             Subscription sub=Subscription.findByUserAndTopic(user,topic)
             sub.seriousness=params.seriousness
@@ -85,27 +88,35 @@ class SubscriptionController {
         redirect(controller:"dashboard",action: "dashboard")
     }
 
-    def sendSubscriptionInvite(){
-        Long topid=Long.parseLong(params.id)
-        User user = User.findByEmail(params.email)
-        Topic topic = Topic.get(topid)
-        Subscription sub = Subscription.findByTopicAndUser(topic,user)
-        if(session.user.userName != user.userName){
-            flash.message="Login as ${user.firstName}" redirect(url:'/')
-            session.invalidate()
-        }else{
-            if(sub==null){
-                Subscription sub1 = new Subscription(seriousness: "CASUAL")
-                topic.addToSubscribers(sub1)
-                user.addToSubscriptions(sub1)
-                topic.save(flush:true)
-                user.save(flush:true,failOnError:true)
-                sub1.save(flush:true,failOnError:true)
-                flash.message2="Subscribed Successfully"
-                redirect(controller:"dashboard",action: "dashboard")
-            }else{
-                flash.message2 ="You are already subscribed in this topic!"
-                redirect(controller: "dashboard",action: "dashboard")
+    def sendSubscriptionInvite() {
+        if (!session.user) {
+            flash.mess = "login first"
+            redirect(controller: "user", actionName: "index")
+        }
+        else {
+
+            Long topid = Long.parseLong(params.id)
+            User user = User.findByEmail(params.email)
+            Topic topic = Topic.get(topid)
+            Subscription sub = Subscription.findByTopicAndUser(topic, user)
+            if (session.user.userName != user.userName) {
+                flash.message = "Login as ${user.firstName}"
+                session.invalidate()
+                redirect(controller: "user", action: "index")
+            } else {
+                if (sub == null) {
+                    Subscription sub1 = new Subscription(seriousness: "CASUAL")
+                    topic.addToSubscribers(sub1)
+                    user.addToSubscriptions(sub1)
+                    topic.save(flush: true)
+                    user.save(flush: true, failOnError: true)
+                    sub1.save(flush: true, failOnError: true)
+                    flash.message2 = "Subscribed Successfully"
+                    redirect(controller: "dashboard", action: "dashboard")
+                } else {
+                    flash.message2 = "You are already subscribed in this topic!"
+                    redirect(controller: "dashboard", action: "dashboard")
+                }
             }
         }
     }
